@@ -14,5 +14,7 @@
             "Html5PatternGenerator\\": "src/"
         }
     },
-    "require": {}
+    "require-dev": {
+        "phpunit/phpunit": "^10"
+    }
 }
