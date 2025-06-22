@@ -66,6 +66,17 @@ $futurePattern = DatePatternGenerator::after(new DateTimeImmutable('2024-06-01')
 $pastPattern = DatePatternGenerator::before(new DateTimeImmutable('2024-06-01'), 7);
 ```
 
+### Color pattern
+
+Generate a regex for HTML hexadecimal colors:
+
+```php
+use Html5PatternGenerator\Pattern\ColorPatternGenerator;
+
+$colorPattern = ColorPatternGenerator::pattern();
+```
+
+
 ### Configurable patterns
 
 `PatternGenerator` can build simple character class based expressions. Options
