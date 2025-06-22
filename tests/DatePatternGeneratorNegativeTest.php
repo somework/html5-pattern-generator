@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 use Html5PatternGenerator\Pattern\DatePatternGenerator;
 use PHPUnit\Framework\TestCase;
 

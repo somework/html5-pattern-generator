@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 use Html5PatternGenerator\PatternGenerator;
 use PHPUnit\Framework\TestCase;
 
