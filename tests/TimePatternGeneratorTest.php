@@ -29,4 +29,13 @@ class TimePatternGeneratorTest extends TestCase
         $this->assertDoesNotMatchRegularExpression($regex, '12:30');
         $this->assertDoesNotMatchRegularExpression($regex, '12:30:60');
     }
+
+    public function testAmPm(): void
+    {
+        $regex = '/^' . TimePatternGenerator::pattern('h:i A') . '$/';
+        $this->assertMatchesRegularExpression($regex, '01:30 PM');
+        $this->assertMatchesRegularExpression($regex, '12:00 AM');
+        $this->assertDoesNotMatchRegularExpression($regex, '00:30 AM');
+        $this->assertDoesNotMatchRegularExpression($regex, '13:15 PM');
+    }
 }

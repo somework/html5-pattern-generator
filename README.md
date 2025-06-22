@@ -66,6 +66,22 @@ $futurePattern = DatePatternGenerator::after(new DateTimeImmutable('2024-06-01')
 $pastPattern = DatePatternGenerator::before(new DateTimeImmutable('2024-06-01'), 7);
 ```
 
+### Time pattern
+
+Generate a regex for 24 hour `HH:MM` formatted times:
+
+```php
+use Html5PatternGenerator\Pattern\TimePatternGenerator;
+
+$timePattern = TimePatternGenerator::pattern();
+```
+
+Use a 12 hour format with AM/PM:
+
+```php
+$ampmPattern = TimePatternGenerator::pattern('h:i A');
+```
+
 ### Configurable patterns
 
 `PatternGenerator` can build simple character class based expressions. Options
