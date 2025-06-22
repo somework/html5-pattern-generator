@@ -11,6 +11,6 @@ class ColorPatternGenerator
      */
     public static function pattern(): string
     {
-        return '#(?:[A-Fa-f0-9]{3}|[A-Fa-f0-9]{6})';
+        return '#[A-Fa-f0-9]{3}(?:[A-Fa-f0-9]{3})?';
     }
 }
