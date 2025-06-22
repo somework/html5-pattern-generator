@@ -2,6 +2,7 @@ composer.lock
 /vendor/
 node_modules/
 test-results/
+build/
 /.phpunit.result.cache
 
 .php-cs-fixer.cache
