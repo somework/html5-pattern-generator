@@ -14,3 +14,9 @@ jobs:
           php-version: '8.3'
       - run: composer install --no-interaction --prefer-dist
       - run: vendor/bin/phpunit --configuration phpunit.xml
+      - uses: actions/setup-node@v3
+        with:
+          node-version: '20'
+      - run: npm install
+      - run: npx playwright install --with-deps
+      - run: npm run test:browser
