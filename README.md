@@ -63,3 +63,14 @@ $futurePattern = DatePatternGenerator::after(new DateTimeImmutable('2024-06-01')
 $pastPattern = DatePatternGenerator::before(new DateTimeImmutable('2024-06-01'), 7);
 ```
 
+
+## Running browser tests locally
+
+Browser tests use [Playwright](https://playwright.dev/). Install PHP and Node dependencies, then install the Playwright browsers:
+
+```bash
+composer install
+npm install
+npx playwright install --with-deps
+npm run test:browser
+```

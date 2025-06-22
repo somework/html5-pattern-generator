@@ -1,0 +1,20 @@
+{
+  "name": "html5-pattern-generator",
+  "version": "1.0.0",
+  "description": "This library provides utilities to build HTML5 pattern attributes for client-side form validation.",
+  "main": "index.js",
+  "directories": {
+    "test": "tests"
+  },
+  "scripts": {
+    "test": "npm run test:browser",
+    "test:browser": "playwright test"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "devDependencies": {
+    "@playwright/test": "^1.53.0"
+  }
+}
