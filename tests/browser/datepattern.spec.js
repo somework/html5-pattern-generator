@@ -94,3 +94,57 @@ test('after and before patterns', async ({ page }) => {
   const beforeInvalid = await beforeInput.evaluate(el => el.checkValidity());
   expect(beforeInvalid).toBe(false);
 });
+
+test('custom format Y.m.d validates dates', async ({ page }) => {
+  const pattern = getPattern("Html5PatternGenerator\\\\Pattern\\\\DatePatternGenerator::pattern('Y.m.d')");
+
+  await page.setContent('<form><input id="date"></form>');
+  await page.evaluate((p) => {
+    document.getElementById('date').setAttribute('pattern', p);
+  }, pattern);
+
+  const input = page.locator('#date');
+  await input.fill('2024.05.01');
+  const valid = await input.evaluate(el => el.checkValidity());
+  expect(valid).toBe(true);
+
+  await input.fill('2024-05-01');
+  const invalid = await input.evaluate(el => el.checkValidity());
+  expect(invalid).toBe(false);
+});
+
+test('format with slashes Y/m/d validates dates', async ({ page }) => {
+  const pattern = getPattern("Html5PatternGenerator\\\\Pattern\\\\DatePatternGenerator::pattern('Y/m/d')");
+
+  await page.setContent('<form><input id="date"></form>');
+  await page.evaluate((p) => {
+    document.getElementById('date').setAttribute('pattern', p);
+  }, pattern);
+
+  const input = page.locator('#date');
+  await input.fill('2024/05/01');
+  const valid = await input.evaluate(el => el.checkValidity());
+  expect(valid).toBe(true);
+
+  await input.fill('05/01/2024');
+  const invalid = await input.evaluate(el => el.checkValidity());
+  expect(invalid).toBe(false);
+});
+
+test('between pattern with custom format', async ({ page }) => {
+  const pattern = getPattern("Html5PatternGenerator\\\\Pattern\\\\DatePatternGenerator::between(new DateTimeImmutable('2024-05-01'), new DateTimeImmutable('2024-05-03'), 'd.m.Y')");
+
+  await page.setContent('<form><input id=\"date\"></form>');
+  await page.evaluate((p) => {
+    document.getElementById('date').setAttribute('pattern', p);
+  }, pattern);
+
+  const input = page.locator('#date');
+  await input.fill('02.05.2024');
+  const valid = await input.evaluate(el => el.checkValidity());
+  expect(valid).toBe(true);
+
+  await input.fill('04.05.2024');
+  const invalid = await input.evaluate(el => el.checkValidity());
+  expect(invalid).toBe(false);
+});
