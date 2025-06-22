@@ -82,6 +82,26 @@ The pattern matches months from `0000-01` up to `9999-12`. Use a different forma
 $altMonth = MonthPatternGenerator::pattern('m/Y');
 ```
 
+### Week pattern
+
+Generate a regex for `YYYY-Www` formatted ISO weeks:
+
+```php
+use Html5PatternGenerator\Pattern\WeekPatternGenerator;
+
+$weekPattern = WeekPatternGenerator::pattern();
+```
+
+### Color pattern
+
+Generate a regex for HTML hexadecimal colors:
+
+```php
+use Html5PatternGenerator\Pattern\ColorPatternGenerator;
+
+$colorPattern = ColorPatternGenerator::pattern();
+```
+
 ### Configurable patterns
 
 `PatternGenerator` can build simple character class based expressions. Options
