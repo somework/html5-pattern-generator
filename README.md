@@ -109,3 +109,13 @@ npm install
 npx playwright install --with-deps
 npm run test:browser
 ```
+
+## Development
+
+Use Composer scripts to run checks during development:
+
+```bash
+composer test  # run unit tests
+composer cs    # check coding style
+composer stan  # run static analysis
+```
