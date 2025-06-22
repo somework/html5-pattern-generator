@@ -40,7 +40,10 @@ $datePattern = DatePatternGenerator::pattern();
 ```
 
 The pattern ensures only valid calendar dates are matched, so combinations like
-`2024-02-31` are rejected.
+`2024-02-31` are rejected. Leap years are **not** validated, meaning
+`2023-02-29` will still pass the regex. If you need to ensure a date exists,
+validate it with PHP's `checkdate()` or attempt to create a
+`DateTimeImmutable` instance after matching the pattern.
 
 Use a different format:
 
