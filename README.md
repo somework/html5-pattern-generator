@@ -66,6 +66,22 @@ $futurePattern = DatePatternGenerator::after(new DateTimeImmutable('2024-06-01')
 $pastPattern = DatePatternGenerator::before(new DateTimeImmutable('2024-06-01'), 7);
 ```
 
+### Month pattern
+
+Generate a regex for `YYYY-MM` formatted months:
+
+```php
+use Html5PatternGenerator\Pattern\MonthPatternGenerator;
+
+$monthPattern = MonthPatternGenerator::pattern();
+```
+
+The pattern matches months from `0000-01` up to `9999-12`. Use a different format if needed:
+
+```php
+$altMonth = MonthPatternGenerator::pattern('m/Y');
+```
+
 ### Week pattern
 
 Generate a regex for `YYYY-Www` formatted ISO weeks:
