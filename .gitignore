@@ -3,3 +3,5 @@ composer.lock
 node_modules/
 test-results/
 /.phpunit.result.cache
+
+.php-cs-fixer.cache
