@@ -63,6 +63,38 @@ $futurePattern = DatePatternGenerator::after(new DateTimeImmutable('2024-06-01')
 $pastPattern = DatePatternGenerator::before(new DateTimeImmutable('2024-06-01'), 7);
 ```
 
+### Configurable patterns
+
+`PatternGenerator` can build simple character class based expressions. Options
+include enabling alpha characters, digits and additional allowed characters as
+well as length limits.
+
+```php
+$generator = new PatternGenerator([
+    'alpha' => true,
+    'digits' => false,
+    'additional' => '-_',
+    'min' => 2,
+    'max' => 4,
+]);
+$pattern = $generator->generate();
+// [A-Za-z\-_]{2,4}
+```
+
+Generate a pattern for a numeric range using the helper method:
+
+```php
+$monthPattern = PatternGenerator::numericRange(1, 12);
+```
+
+### Troubleshooting
+
+If patterns do not behave as expected:
+
+* Ensure special characters are escaped using `additional` or `numericRange`.
+* When running browser tests on different Node versions, install Playwright
+  browsers after switching Node to avoid mismatch errors.
+
 
 ## Running browser tests locally
 
