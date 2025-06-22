@@ -30,7 +30,7 @@ jobs:
       - run: vendor/bin/phpunit --coverage-text --coverage-clover build/coverage.xml
         env:
           XDEBUG_MODE: coverage
-      - uses: actions/upload-artifact@v3
+      - uses: actions/upload-artifact@v4
         with:
           name: php-coverage-${{ matrix.php-version }}
           path: build/coverage.xml
