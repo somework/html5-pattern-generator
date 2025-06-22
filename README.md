@@ -76,6 +76,15 @@ use Html5PatternGenerator\Pattern\WeekPatternGenerator;
 $weekPattern = WeekPatternGenerator::pattern();
 ```
 
+### Color pattern
+
+Generate a regex for HTML hexadecimal colors:
+
+```php
+use Html5PatternGenerator\Pattern\ColorPatternGenerator;
+
+$colorPattern = ColorPatternGenerator::pattern();
+```
 
 ### Configurable patterns
 
