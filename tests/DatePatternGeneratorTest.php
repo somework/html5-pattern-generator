@@ -57,4 +57,19 @@ class DatePatternGeneratorTest extends TestCase
         $this->assertMatchesRegularExpression($regexBefore, '2024-07-09');
         $this->assertDoesNotMatchRegularExpression($regexBefore, '2024-07-08');
     }
+
+    public function testLeapYearEdgeCase(): void
+    {
+        $regex = '/^' . DatePatternGenerator::pattern() . '$/';
+        $this->assertMatchesRegularExpression($regex, '2024-02-29');
+        // Pattern does not validate leap years, so 2023-02-29 also matches
+        $this->assertMatchesRegularExpression($regex, '2023-02-29');
+    }
+
+    public function testUnknownFormatCharactersAreLiterals(): void
+    {
+        $regex = '/^' . DatePatternGenerator::pattern('Y-Q-d') . '$/';
+        $this->assertMatchesRegularExpression($regex, '2024-Q-01');
+        $this->assertDoesNotMatchRegularExpression($regex, '2024-05-01');
+    }
 }
