@@ -13,6 +13,8 @@ jobs:
         with:
           php-version: '8.3'
       - run: composer install --no-interaction --prefer-dist
+      - run: vendor/bin/php-cs-fixer fix --dry-run --diff
+      - run: vendor/bin/phpstan analyse --no-progress
       - run: vendor/bin/phpunit --configuration phpunit.xml
       - uses: actions/setup-node@v3
         with:

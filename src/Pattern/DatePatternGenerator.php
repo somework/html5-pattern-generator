@@ -4,7 +4,7 @@ namespace Html5PatternGenerator\Pattern;
 
 use DateInterval;
 use DatePeriod;
-use DateTimeInterface;
+use DateTimeImmutable;
 use InvalidArgumentException;
 
 class DatePatternGenerator
@@ -54,7 +54,7 @@ class DatePatternGenerator
     /**
      * Generate a regex pattern for all dates between two boundaries (inclusive).
      */
-    public static function between(DateTimeInterface $from, DateTimeInterface $to, string $format = 'Y-m-d'): string
+    public static function between(DateTimeImmutable $from, DateTimeImmutable $to, string $format = 'Y-m-d'): string
     {
         if ($to < $from) {
             throw new InvalidArgumentException('End date must not be earlier than start date');
@@ -72,7 +72,7 @@ class DatePatternGenerator
     /**
      * Generate a regex pattern for dates after the given date (inclusive) for a limited range.
      */
-    public static function after(DateTimeInterface $from, int $days = 365, string $format = 'Y-m-d'): string
+    public static function after(DateTimeImmutable $from, int $days = 365, string $format = 'Y-m-d'): string
     {
         $to = $from->modify('+' . $days . ' days');
         return self::between($from, $to, $format);
@@ -81,7 +81,7 @@ class DatePatternGenerator
     /**
      * Generate a regex pattern for dates before the given date (inclusive) for a limited range.
      */
-    public static function before(DateTimeInterface $to, int $days = 365, string $format = 'Y-m-d'): string
+    public static function before(DateTimeImmutable $to, int $days = 365, string $format = 'Y-m-d'): string
     {
         $from = $to->modify('-' . $days . ' days');
         return self::between($from, $to, $format);
