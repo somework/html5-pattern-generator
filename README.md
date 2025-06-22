@@ -86,7 +86,6 @@ use Html5PatternGenerator\Pattern\ColorPatternGenerator;
 $colorPattern = ColorPatternGenerator::pattern();
 ```
 
-
 ### Configurable patterns
 
 `PatternGenerator` can build simple character class based expressions. Options
