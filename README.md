@@ -66,6 +66,16 @@ $futurePattern = DatePatternGenerator::after(new DateTimeImmutable('2024-06-01')
 $pastPattern = DatePatternGenerator::before(new DateTimeImmutable('2024-06-01'), 7);
 ```
 
+### Week pattern
+
+Generate a regex for `YYYY-Www` formatted ISO weeks:
+
+```php
+use Html5PatternGenerator\Pattern\WeekPatternGenerator;
+
+$weekPattern = WeekPatternGenerator::pattern();
+```
+
 ### Color pattern
 
 Generate a regex for HTML hexadecimal colors:
