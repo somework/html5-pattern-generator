@@ -40,4 +40,20 @@ class PatternGeneratorTest extends TestCase
         $this->assertMatchesRegularExpression($regex, '3');
         $this->assertDoesNotMatchRegularExpression($regex, '4');
     }
+
+    public function testNumericRangeLarge(): void
+    {
+        $pattern = PatternGenerator::numericRange(1, 1000);
+        $regex = '/^' . $pattern . '$/';
+
+        $this->assertMatchesRegularExpression($regex, '1');
+        $this->assertMatchesRegularExpression($regex, '10');
+        $this->assertMatchesRegularExpression($regex, '999');
+        $this->assertMatchesRegularExpression($regex, '1000');
+
+        $this->assertDoesNotMatchRegularExpression($regex, '0');
+        $this->assertDoesNotMatchRegularExpression($regex, '1001');
+
+        $this->assertLessThan(100, strlen($pattern));
+    }
 }

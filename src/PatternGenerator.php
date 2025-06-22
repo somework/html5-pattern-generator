@@ -81,11 +81,154 @@ class PatternGenerator
             throw new InvalidArgumentException('Max must be greater than or equal to min');
         }
 
-        $options = [];
-        for ($i = $min; $i <= $max; $i++) {
-            $options[] = preg_quote((string) $i, '/');
+        if ($min === $max) {
+            return (string) $min;
         }
 
-        return '(?:' . implode('|', $options) . ')';
+        if ($min < 0 || $max < 0) {
+            throw new InvalidArgumentException('Only non-negative numbers are supported');
+        }
+
+        $patterns = self::splitToPatterns($min, $max);
+        $parts = array_map(static fn (array $p) => $p['string'], $patterns);
+
+        $result = implode('|', $parts);
+
+        return count($parts) > 1 ? '(?:' . $result . ')' : $result;
+    }
+
+    /**
+     * @return array<int, array{pattern:string,count:list<int>,string:string}>
+     */
+    private static function splitToPatterns(int $min, int $max): array
+    {
+        $ranges = self::splitToRanges($min, $max);
+        $tokens = [];
+        $start = $min;
+        $prev = null;
+
+        foreach ($ranges as $stop) {
+            $obj = self::rangeToPattern((string) $start, (string) $stop);
+
+            if ($prev !== null && $prev['pattern'] === $obj['pattern']) {
+                if (count($prev['count']) > 1) {
+                    array_pop($prev['count']);
+                }
+                $prev['count'][] = $obj['count'];
+                $prev['string'] = $prev['pattern'] . self::toQuantifier($prev['count']);
+                $tokens[array_key_last($tokens)] = $prev;
+            } else {
+                $token = [
+                    'pattern' => $obj['pattern'],
+                    'count' => [$obj['count']],
+                    'string' => $obj['pattern'] . self::toQuantifier([$obj['count']]),
+                ];
+                $tokens[] = $token;
+                $prev = &$tokens[array_key_last($tokens)];
+            }
+
+            $start = $stop + 1;
+        }
+
+        return $tokens;
+    }
+
+    /**
+     * @return list<int>
+     */
+    private static function splitToRanges(int $min, int $max): array
+    {
+        $nines = 1;
+        $zeros = 1;
+
+        $stop = self::countNines($min, $nines);
+        $stops = [$max];
+
+        while ($min <= $stop && $stop <= $max) {
+            $stops[] = $stop;
+            $nines += 1;
+            $stop = self::countNines($min, $nines);
+        }
+
+        $stop = self::countZeros($max + 1, $zeros) - 1;
+
+        while ($min < $stop && $stop <= $max) {
+            $stops[] = $stop;
+            $zeros += 1;
+            $stop = self::countZeros($max + 1, $zeros) - 1;
+        }
+
+        $stops = array_values(array_unique($stops));
+        sort($stops);
+
+        return $stops;
+    }
+
+    /**
+     * @return array{pattern:string,count:int}
+     */
+    private static function rangeToPattern(string $start, string $stop): array
+    {
+        if ($start === $stop) {
+            return ['pattern' => preg_quote($start, '/'), 'count' => 0];
+        }
+
+        $zipped = self::zip($start, $stop);
+        $pattern = '';
+        $count = 0;
+
+        foreach ($zipped as [$startDigit, $stopDigit]) {
+            if ($startDigit === $stopDigit) {
+                $pattern .= preg_quote($startDigit, '/');
+            } elseif ($startDigit !== '0' || $stopDigit !== '9') {
+                $pattern .= '[' . $startDigit . '-' . $stopDigit . ']';
+            } else {
+                $count++;
+            }
+        }
+
+        if ($count > 0) {
+            $pattern .= '[0-9]';
+        }
+
+        return ['pattern' => $pattern, 'count' => $count];
+    }
+
+    /**
+     * @return list<array{0:string,1:string}>
+     */
+    private static function zip(string $a, string $b): array
+    {
+        $arr = [];
+        $len = strlen($a);
+        for ($i = 0; $i < $len; $i++) {
+            $arr[] = [$a[$i], $b[$i]];
+        }
+        return $arr;
+    }
+
+    private static function countNines(int $min, int $len): int
+    {
+        $str = (string) $min;
+        $prefix = $len < strlen($str) ? substr($str, 0, -$len) : '';
+        return (int) ($prefix . str_repeat('9', $len));
+    }
+
+    private static function countZeros(int $integer, int $zeros): int
+    {
+        return $integer - ($integer % (10 ** $zeros));
+    }
+
+    /**
+     * @param list<int> $digits
+     */
+    private static function toQuantifier(array $digits): string
+    {
+        $start = $digits[0] ?? 0;
+        $stop = $digits[1] ?? '';
+
+        return ($stop !== '' || $start > 1)
+            ? '{' . (string) $start . ($stop !== '' ? ',' . (string) $stop : '') . '}'
+            : '';
     }
 }
