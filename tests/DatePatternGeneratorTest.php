@@ -64,8 +64,10 @@ class DatePatternGeneratorTest extends TestCase
     {
         $regex = '/^' . DatePatternGenerator::pattern() . '$/';
         $this->assertMatchesRegularExpression($regex, '2024-02-29');
-        // Pattern does not validate leap years, so 2023-02-29 also matches
+        // Pattern does not validate leap years, so 2023-02-29 also matches.
         $this->assertMatchesRegularExpression($regex, '2023-02-29');
+        // Recommended approach from README: use checkdate() for final validation
+        $this->assertFalse(checkdate(2, 29, 2023));
     }
 
     public function testUnknownFormatCharactersAreLiterals(): void
