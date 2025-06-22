@@ -46,3 +46,21 @@ test('pattern with seconds validates times', async ({ page }) => {
   const invalid = await input.evaluate(el => el.checkValidity());
   expect(invalid).toBe(false);
 });
+
+test('12 hour format validates times with AM/PM', async ({ page }) => {
+  const pattern = getPattern("Html5PatternGenerator\\\\Pattern\\\\TimePatternGenerator::pattern('h:i A')");
+
+  await page.setContent('<form><input id="time"></form>');
+  await page.evaluate((p) => {
+    document.getElementById('time').setAttribute('pattern', p);
+  }, pattern);
+
+  const input = page.locator('#time');
+  await input.fill('01:30 PM');
+  const valid = await input.evaluate(el => el.checkValidity());
+  expect(valid).toBe(true);
+
+  await input.fill('00:30 AM');
+  const invalid = await input.evaluate(el => el.checkValidity());
+  expect(invalid).toBe(false);
+});

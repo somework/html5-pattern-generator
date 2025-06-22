@@ -92,6 +92,22 @@ use Html5PatternGenerator\Pattern\WeekPatternGenerator;
 $weekPattern = WeekPatternGenerator::pattern();
 ```
 
+### Time pattern
+
+Generate a regex for 24 hour `HH:MM` formatted times:
+
+```php
+use Html5PatternGenerator\Pattern\TimePatternGenerator;
+
+$timePattern = TimePatternGenerator::pattern();
+```
+
+Use a 12 hour format with AM/PM:
+
+```php
+$ampmPattern = TimePatternGenerator::pattern('h:i A');
+```
+
 ### Color pattern
 
 Generate a regex for HTML hexadecimal colors:
