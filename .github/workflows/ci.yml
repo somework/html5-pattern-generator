@@ -35,9 +35,11 @@ jobs:
           name: php-coverage-${{ matrix.php-version }}
           path: build/coverage.xml
       - uses: actions/setup-node@v3
+        if: matrix.php-version == '8.3'
         with:
           node-version: '20'
       - name: Cache npm dependencies
+        if: matrix.php-version == '8.3'
         uses: actions/cache@v3
         with:
           path: ~/.npm
@@ -45,5 +47,13 @@ jobs:
           restore-keys: |
             npm-${{ runner.os }}-
       - run: npm install
+        if: matrix.php-version == '8.3'
       - run: npx playwright install --with-deps
-      - run: npm run test:browser
+        if: matrix.php-version == '8.3'
+      - run: npm run test:browser:coverage
+        if: matrix.php-version == '8.3'
+      - uses: actions/upload-artifact@v4
+        if: matrix.php-version == '8.3'
+        with:
+          name: browser-coverage
+          path: build/browser-coverage

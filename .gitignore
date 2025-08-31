@@ -3,6 +3,7 @@ composer.lock
 node_modules/
 test-results/
 build/
+/.nyc_output/
 /.phpunit.result.cache
 
 .php-cs-fixer.cache
