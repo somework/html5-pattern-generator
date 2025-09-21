@@ -7,13 +7,15 @@
   },
   "scripts": {
     "test": "npm run test:browser",
-    "test:browser": "playwright test"
+    "test:browser": "playwright test",
+    "test:browser:coverage": "nyc --reporter=lcov --report-dir=build/browser-coverage playwright test"
   },
   "keywords": [],
   "author": "Igor Pinchuk <i.pinchuk.work@gmail.com>",
   "license": "MIT",
   "type": "commonjs",
   "devDependencies": {
-    "@playwright/test": "^1.53.0"
+    "@playwright/test": "^1.53.0",
+    "nyc": "^17.1.0"
   }
 }
